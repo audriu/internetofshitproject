@@ -1,10 +1,5 @@
 package ok.hos.kriause;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.hardware.TriggerEvent;
-import android.hardware.TriggerEventListener;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +12,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static AppCompatActivity app;
     public static ImageView image;
-    public static SensorManager mSensorManager;
-    public static Sensor mSensor;
-    private static TriggerEventListener mTriggerEventListener;
     public static long secondsLastMoved;
     public static MediaPlayer mp;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +24,9 @@ public class MainActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.something);
         MainActivity.image.setVisibility(View.GONE);
         mp = MediaPlayer.create(this, R.raw.screem);
-
-
-        mTriggerEventListener = new TriggerEventListener() {
-            @Override
-            public void onTrigger(TriggerEvent event) {
-                System.out.println("ffffffffffffffffffffffffffffffffffffffffffffffff");
-            }
-        };
-
         new DownloadFilesTask().execute(null, null, null);
-
     }
-
-
-
-
+    
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int x = (int) event.getX();
