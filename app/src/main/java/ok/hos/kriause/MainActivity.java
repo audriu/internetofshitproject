@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public static MediaPlayer mp;
     private SensorManager sensorManager;
     float ax, ay, az;   // these are the acceleration in x,y and z axis
-    static int [] voices =null;
+    static Object[] voices =null;
     UsbDevice device;
     UsbDeviceConnection usbConnection;
 
@@ -59,12 +60,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         app = this;
         setContentView(R.layout.activity_main);
 
-//        Object[] voicesLocal = Arrays.asList(R.raw.screem, R.raw.active_010_aaaw, R.raw.active_011_aw).toArray();
-//        LinkedList<Integer> ll = new LinkedList<Integer>();
-//        for(Object o : voices){
-//            ll.add((Integer) o);
-//        }
-//        voices = ll.toArray();
+        voices = Arrays.asList(R.raw.screem, R.raw.active_010_aaaw, R.raw.active_011_aw).toArray();
 
 
         image = (ImageView) findViewById(R.id.something);
@@ -114,9 +110,15 @@ class DownloadFilesTask extends AsyncTask<String, Integer, Long> {
         }
     }
 
-//    private int getRandomWoice(){
-//        Arrays.asList();
-//    }
+    private int getRandomWoice() {
+        try {
+            int rnd = new Random().nextInt(MainActivity.voices.length);
+            return (int) MainActivity.voices[rnd];
+        }catch(Exception e){
+            e.printStackTrace();
+            return (int) MainActivity.voices[0];
+        }
+    }
 
     protected void onProgressUpdate(Integer... progress) {
         if (progress[0].equals(1)) {
@@ -124,7 +126,7 @@ class DownloadFilesTask extends AsyncTask<String, Integer, Long> {
             if (MainActivity.mp != null) {
                 if (MainActivity.mp.isPlaying()) {
                     MainActivity.mp.reset();
-                    MainActivity.mp = MediaPlayer.create(MainActivity.app, R.raw.screem);
+                    MainActivity.mp = MediaPlayer.create(MainActivity.app, getRandomWoice() );
                 }
             }
         } else {
