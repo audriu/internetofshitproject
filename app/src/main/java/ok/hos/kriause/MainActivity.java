@@ -16,7 +16,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public static MediaPlayer mp;
     private SensorManager sensorManager;
     float ax, ay, az;   // these are the acceleration in x,y and z axis
-    static Object[] voices =null;
+    static Object[] voices = null;
     UsbDevice device;
     UsbDeviceConnection usbConnection;
 
@@ -41,10 +40,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             float newx = event.values[0];
             float newy = event.values[1];
             float newz = event.values[2];
-            float diffx = newx-ax;
-            float diffy = newy-ay;
-            float diffz = newz-az;
-            if(diffx > 1.5 || diffy >1.5 || diffz > 1.5) {
+            float diffx = newx - ax;
+            float diffy = newy - ay;
+            float diffz = newz - az;
+            if (diffx > 1.5 || diffy > 1.5 || diffz > 1.5) {
                 System.out.println("---" + (newx - ax) + "---" + (newy - ay) + "---" + (newz - az));
                 secondsLastMoved = System.currentTimeMillis();
             }
@@ -60,7 +59,33 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         app = this;
         setContentView(R.layout.activity_main);
 
-        voices = Arrays.asList(R.raw.screem, R.raw.active_010_aaaw, R.raw.active_011_aw).toArray();
+        voices = Arrays.asList(R.raw.screem, R.raw.active_011_aw, R.raw.active_010_aaaw
+                , R.raw.active_013_ow
+                , R.raw.active_015_rrh
+                , R.raw.active_012_mh
+                , R.raw.active_014_uhh
+                , R.raw.active_016_aau
+                , R.raw.active_017_uhm
+                , R.raw.active_018_aaw
+                , R.raw.active_019_yourehurtingme
+                , R.raw.active_020_imalright
+                , R.raw.active_021_tisbutascratch
+                , R.raw.active_022_ivehadworse
+                , R.raw.active_023_comehery
+                , R.raw.active_024_cmonthen
+                , R.raw.active_025_pansy
+                , R.raw.active_026_haveatya
+                , R.raw.active_027_pfft
+                , R.raw.active_028_didntevenfeelthat
+                , R.raw.active_029_justaflashwoud
+                , R.raw.active_030_rright
+                , R.raw.active_031_illdoyouforthat
+                , R.raw.active_032_eeh
+                , R.raw.active_033_aah
+                , R.raw.active_034_aah
+                , R.raw.active_035_didyoualreadypunchme
+                , R.raw.active_036_causeididntfeelanything
+        ).toArray();
 
 
         image = (ImageView) findViewById(R.id.something);
@@ -113,8 +138,9 @@ class DownloadFilesTask extends AsyncTask<String, Integer, Long> {
     private int getRandomWoice() {
         try {
             int rnd = new Random().nextInt(MainActivity.voices.length);
+            System.out.println("ppppppppppppppppppppppp" + rnd);
             return (int) MainActivity.voices[rnd];
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return (int) MainActivity.voices[0];
         }
@@ -124,10 +150,10 @@ class DownloadFilesTask extends AsyncTask<String, Integer, Long> {
         if (progress[0].equals(1)) {
             MainActivity.image.setVisibility(View.GONE);
             if (MainActivity.mp != null) {
-                if (MainActivity.mp.isPlaying()) {
+                //if (MainActivity.mp.isPlaying()) {
                     MainActivity.mp.reset();
-                    MainActivity.mp = MediaPlayer.create(MainActivity.app, getRandomWoice() );
-                }
+                    MainActivity.mp = MediaPlayer.create(MainActivity.app, getRandomWoice());
+                //}
             }
         } else {
             MainActivity.image.setVisibility(View.VISIBLE);
