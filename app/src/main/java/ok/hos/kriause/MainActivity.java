@@ -15,14 +15,18 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     public static AppCompatActivity app;
     public static ImageView image;
-    public static long secondsLastMoved;
+    public static long secondsLastMoved = System.currentTimeMillis() + 2000;
     public static MediaPlayer mp;
     private SensorManager sensorManager;
     float ax, ay, az;   // these are the acceleration in x,y and z axis
+    static int [] voices =null;
     UsbDevice device;
     UsbDeviceConnection usbConnection;
 
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             float diffx = newx-ax;
             float diffy = newy-ay;
             float diffz = newz-az;
-            if(diffx > 1 || diffy >1 || diffz > 1) {
+            if(diffx > 1.5 || diffy >1.5 || diffz > 1.5) {
                 System.out.println("---" + (newx - ax) + "---" + (newy - ay) + "---" + (newz - az));
                 secondsLastMoved = System.currentTimeMillis();
             }
@@ -54,6 +58,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         app = this;
         setContentView(R.layout.activity_main);
+
+//        Object[] voicesLocal = Arrays.asList(R.raw.screem, R.raw.active_010_aaaw, R.raw.active_011_aw).toArray();
+//        LinkedList<Integer> ll = new LinkedList<Integer>();
+//        for(Object o : voices){
+//            ll.add((Integer) o);
+//        }
+//        voices = ll.toArray();
+
 
         image = (ImageView) findViewById(R.id.something);
         MainActivity.image.setVisibility(View.GONE);
@@ -101,6 +113,10 @@ class DownloadFilesTask extends AsyncTask<String, Integer, Long> {
             }
         }
     }
+
+//    private int getRandomWoice(){
+//        Arrays.asList();
+//    }
 
     protected void onProgressUpdate(Integer... progress) {
         if (progress[0].equals(1)) {
